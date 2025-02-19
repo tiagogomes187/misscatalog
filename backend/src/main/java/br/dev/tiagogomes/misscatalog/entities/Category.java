@@ -1,6 +1,7 @@
 package br.dev.tiagogomes.misscatalog.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -10,10 +11,12 @@ import java.util.Objects;
 public class Category implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	
 	@Id
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@NotBlank
 	private String name;
 	
 	public Category () {
