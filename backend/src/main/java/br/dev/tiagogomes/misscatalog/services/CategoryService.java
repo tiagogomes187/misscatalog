@@ -4,6 +4,7 @@ import br.dev.tiagogomes.misscatalog.dto.CategoryDTO;
 import br.dev.tiagogomes.misscatalog.entities.Category;
 import br.dev.tiagogomes.misscatalog.repositories.CategoryRepository;
 import br.dev.tiagogomes.misscatalog.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,5 +41,17 @@ public class CategoryService {
 		entity.setName (dto.name ());
 		entity = categoryRepository.save (entity);
 		return CategoryDTO.fromEntity (entity);
+	}
+	
+	@Transactional
+	public CategoryDTO update (Long id, CategoryDTO dto) {
+		try {
+			Category entity = categoryRepository.getReferenceById (id);
+			entity.setName (dto.name ());
+			entity = categoryRepository.save (entity);
+			return CategoryDTO.fromEntity (entity);
+		} catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException ("Id " + id + " not found");
+		}
 	}
 }
