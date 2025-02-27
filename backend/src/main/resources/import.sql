@@ -1,4 +1,4 @@
-INSERT INTO tb_category (name) VALUES ('Adultos');
-INSERT INTO tb_category (name) VALUES ('Infantis');
-INSERT INTO tb_category (name) VALUES ('Fora de linha');
-INSERT INTO tb_category (name)  VALUES ('Outros');
+INSERT INTO tb_category (name, created_At) VALUES ('Adultos', NOW());
+INSERT INTO tb_category (name, created_At) VALUES ('Infantis', NOW());
+INSERT INTO tb_category (name, created_At) VALUES ('Fora de linha', NOW());
+INSERT INTO tb_category (name, created_At)  VALUES ('Outros', NOW());

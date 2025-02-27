@@ -3,9 +3,12 @@ package br.dev.tiagogomes.misscatalog.services;
 import br.dev.tiagogomes.misscatalog.dto.CategoryDTO;
 import br.dev.tiagogomes.misscatalog.entities.Category;
 import br.dev.tiagogomes.misscatalog.repositories.CategoryRepository;
+import br.dev.tiagogomes.misscatalog.services.exceptions.DatabaseException;
 import br.dev.tiagogomes.misscatalog.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -54,4 +57,17 @@ public class CategoryService {
 			throw new ResourceNotFoundException ("Id " + id + " not found");
 		}
 	}
+	
+	@Transactional (propagation = Propagation.SUPPORTS)
+	public void delete (Long id) {
+		if (!categoryRepository.existsById (id)) {
+			throw new ResourceNotFoundException ("Resource not found");
+		}
+		try {
+			categoryRepository.deleteById (id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DatabaseException ("Referential integrity failure");
+		}
+	}
+	
 }
