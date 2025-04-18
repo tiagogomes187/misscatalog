@@ -33,14 +33,14 @@ public class ProductService {
 	@Transactional (readOnly = true)
 	public Page<ProductDTO> findAllPaged (Pageable pageable) {
 		Page<Product> page = productRepository.findAll (pageable);
-		return page.map (ProductDTO :: fromEntity);
+		return page.map (entity -> ProductDTO.fromEntity (entity, entity.getCategories ()));
 	}
 	
 	@Transactional (readOnly = true)
 	public ProductDTO findById (Long id) {
 		Optional<Product> obj = productRepository.findById (id);
 		Product entity = obj.orElseThrow (() -> new ResourceNotFoundException ("Entity with id " + id + " not found"));
-		return ProductDTO.fromEntity (entity);
+		return ProductDTO.fromEntity (entity, entity.getCategories ());
 	}
 	
 	@Transactional
@@ -48,7 +48,7 @@ public class ProductService {
 		Product entity = new Product ();
 		copyDtoToEntity (dto, entity);
 		entity = productRepository.save (entity);
-		return ProductDTO.fromEntity (entity);
+		return ProductDTO.fromEntity (entity, entity.getCategories ());
 	}
 	
 	@Transactional
@@ -57,7 +57,7 @@ public class ProductService {
 			Product entity = productRepository.getReferenceById (id);
 			copyDtoToEntity (dto, entity);
 			entity = productRepository.save (entity);
-			return ProductDTO.fromEntity (entity);
+			return ProductDTO.fromEntity (entity, entity.getCategories ());
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException ("Id " + id + " not found");
 		}
@@ -65,8 +65,8 @@ public class ProductService {
 	
 	@Transactional (propagation = Propagation.SUPPORTS)
 	public void delete (Long id) {
-		if (!productRepository.existsById (id)) {
-			throw new ResourceNotFoundException ("Resource not found");
+		if (!productRepository.existsById (id)){
+			throw new ResourceNotFoundException ("Resource note found");
 		}
 		try {
 			productRepository.deleteById (id);
@@ -76,7 +76,7 @@ public class ProductService {
 	}
 	
 	private void copyDtoToEntity (ProductDTO dto, Product entity) {
-		entity.setGtin_code (dto.gtin_code ());
+		entity.setGtin_code (dto.gtinCode ());
 		entity.setReference (dto.reference ());
 		entity.setColor (dto.color ());
 		entity.setName (dto.name ());

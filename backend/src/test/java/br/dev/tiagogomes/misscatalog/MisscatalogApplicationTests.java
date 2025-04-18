@@ -8,6 +8,7 @@ class MisscatalogApplicationTests {
 
 	@Test
 	void contextLoads() {
+		// Loads the application context.
 	}
 
 }

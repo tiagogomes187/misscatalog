@@ -17,7 +17,7 @@ public class Product implements Serializable {
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Column (name = "gtin", unique = true)
-	private Long gtin_code;
+	private Long gtinCode;
 	@Column (name = "referencia")
 	private String reference;
 	@Column (name = "cor")
@@ -52,7 +52,7 @@ public class Product implements Serializable {
 	private String gpc;
 	@Column (name = "data_lancamento", columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant releaseDate;
-	@Column (name = "tipo" )
+	@Column (name = "tipo")
 	private String type;
 	@Column (columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant createdAt;
@@ -66,9 +66,9 @@ public class Product implements Serializable {
 	public Product () {
 	}
 	
-	public Product (Long id, Long gtin_code, String reference, String color, String name, String additionalCodes, Long itemsIncluded, String images, String brand, Double grossWeight, Double netWeight, Integer netContent, Double height, Double width, Double depth, String ncm, String cest, String gpc, Instant releaseDate, String type, Instant createdAt, Instant updatedAt) {
+	public Product (Long id, Long gtinCode, String reference, String color, String name, String additionalCodes, Long itemsIncluded, String images, String brand, Double grossWeight, Double netWeight, Integer netContent, Double height, Double width, Double depth, String ncm, String cest, String gpc, Instant releaseDate, String type, Instant createdAt, Instant updatedAt) {
 		this.id = id;
-		this.gtin_code = gtin_code;
+		this.gtinCode = gtinCode;
 		this.reference = reference;
 		this.color = color;
 		this.name = name;
@@ -95,8 +95,8 @@ public class Product implements Serializable {
 		return id;
 	}
 	
-	public Long getGtin_code () {
-		return gtin_code;
+	public Long getGtinCode () {
+		return gtinCode;
 	}
 	
 	public String getReference () {
@@ -188,7 +188,7 @@ public class Product implements Serializable {
 	}
 	
 	public void setGtin_code (Long gtin_code) {
-		this.gtin_code = gtin_code;
+		this.gtinCode = gtin_code;
 	}
 	
 	public void setReference (String reference) {
@@ -276,12 +276,12 @@ public class Product implements Serializable {
 	@Override
 	public boolean equals (Object o) {
 		if (!(o instanceof Product product)) return false;
-		return Objects.equals (getId (), product.getId ()) && Objects.equals (getGtin_code (), product.getGtin_code ());
+		return Objects.equals (getId (), product.getId ()) && Objects.equals (getGtinCode (), product.getGtinCode ());
 	}
 	
 	@Override
 	public int hashCode () {
-		return Objects.hash (getId (), getGtin_code ());
+		return Objects.hash (getId (), getGtinCode ());
 	}
 	
 	
