@@ -1,5 +1,8 @@
 package br.dev.tiagogomes.misscatalog.resources;
 
+import br.dev.tiagogomes.misscatalog.dto.ProductDTO;
+import br.dev.tiagogomes.misscatalog.tests.Factory;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -19,6 +23,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Transactional
 public class ProductResourceIT {
+	
+	@Autowired
+	private ObjectMapper objectMapper;
 	
 	@Autowired
 	private MockMvc mockMvc;
@@ -50,4 +57,39 @@ public class ProductResourceIT {
 		
 	}
 	
+	@Test
+	void updateShouldReturnProductDTOWhenIdExists () throws Exception {
+		ProductDTO productDTO = Factory.createProductDTO ();
+		String jsonBody = objectMapper.writeValueAsString (productDTO);
+		
+		String expectedName = productDTO.name ();
+		String expectedReference = productDTO.reference ();
+		String expectedGtin = String.valueOf (productDTO.gtinCode ());
+		
+		ResultActions result =
+				mockMvc.perform (put ("/products/{id}", existingId)
+						.content (jsonBody)
+						.contentType (MediaType.APPLICATION_JSON)
+						.accept (MediaType.APPLICATION_JSON));
+		
+		result.andExpect (status ().isOk ());
+		result.andExpect (jsonPath ("$.name").value (expectedName));
+		result.andExpect (jsonPath ("$.id").value (existingId));
+		result.andExpect (jsonPath ("$.reference").value (expectedReference));
+		result.andExpect (jsonPath ("$.gtinCode").value (expectedGtin));
+	}
+	
+	@Test
+	void updateShouldReturnNotFoundWhenIdDoesNotExist () throws Exception {
+		ProductDTO productDTO = Factory.createProductDTO ();
+		String jsonBody = objectMapper.writeValueAsString (productDTO);
+		
+		ResultActions result =
+				mockMvc.perform (put ("/products/{id}", nonExistingId)
+						.content (jsonBody)
+						.contentType (MediaType.APPLICATION_JSON)
+						.accept (MediaType.APPLICATION_JSON));
+		
+		result.andExpect (status ().isNotFound ());
+	}
 }
