@@ -1,19 +1,36 @@
 package br.dev.tiagogomes.misscatalog.entities;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+@Entity
+@Table (name = "tb_user")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
+	@Id
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Long id;
+	@NotBlank
 	private String firstName;
+	@NotBlank
 	private String lastName;
+	@NotBlank (message = "O e-mail é obrigatório!")
+	@Email (message = "Formato de e-mail inválido!")
 	private String email;
+	@NotBlank
 	private String password;
 	
+	@ManyToMany
+	@JoinTable (name = "tb_user_role",
+			joinColumns = @JoinColumn (name = "user_id"),
+			inverseJoinColumns = @JoinColumn (name = "role_id"))
 	private Set<Role> roles = new HashSet<> ();
 	
 	public User () {
