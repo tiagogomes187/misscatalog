@@ -1,6 +1,5 @@
 package br.dev.tiagogomes.misscatalog.dto;
 
-import br.dev.tiagogomes.misscatalog.entities.Category;
 import br.dev.tiagogomes.misscatalog.entities.Product;
 
 import java.time.Instant;
@@ -32,7 +31,7 @@ public record ProductDTO(
 		Set<CategoryDTO> categories
 ) {
 	
-	public static ProductDTO fromEntity (Product entity, Set<Category> categories) {
+	public static ProductDTO fromEntity (Product entity) {
 		Set<CategoryDTO> categoryDTOs = entity.getCategories ().stream ()
 				.map (category -> new CategoryDTO (category.getId (), category.getName ()))
 				.collect (Collectors.toSet ());

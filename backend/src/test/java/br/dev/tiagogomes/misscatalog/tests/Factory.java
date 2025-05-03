@@ -16,6 +16,6 @@ public class Factory {
 	
 	public static ProductDTO createProductDTO(){
 		Product product = createProduct ();
-		return ProductDTO.fromEntity (product, product.getCategories ());
+		return ProductDTO.fromEntity (product);
 	}
 }

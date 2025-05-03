@@ -33,14 +33,14 @@ public class ProductService {
 	@Transactional (readOnly = true)
 	public Page<ProductDTO> findAllPaged (Pageable pageable) {
 		Page<Product> page = productRepository.findAll (pageable);
-		return page.map (entity -> ProductDTO.fromEntity (entity, entity.getCategories ()));
+		return page.map (entity -> ProductDTO.fromEntity (entity));
 	}
 	
 	@Transactional (readOnly = true)
 	public ProductDTO findById (Long id) {
 		Optional<Product> obj = productRepository.findById (id);
 		Product entity = obj.orElseThrow (() -> new ResourceNotFoundException ("Entity with id " + id + " not found"));
-		return ProductDTO.fromEntity (entity, entity.getCategories ());
+		return ProductDTO.fromEntity (entity);
 	}
 	
 	@Transactional
@@ -48,7 +48,7 @@ public class ProductService {
 		Product entity = new Product ();
 		copyDtoToEntity (dto, entity);
 		entity = productRepository.save (entity);
-		return ProductDTO.fromEntity (entity, entity.getCategories ());
+		return ProductDTO.fromEntity (entity);
 	}
 	
 	@Transactional
@@ -57,7 +57,7 @@ public class ProductService {
 			Product entity = productRepository.getReferenceById (id);
 			copyDtoToEntity (dto, entity);
 			entity = productRepository.save (entity);
-			return ProductDTO.fromEntity (entity, entity.getCategories ());
+			return ProductDTO.fromEntity (entity);
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException ("Id " + id + " not found");
 		}
@@ -65,7 +65,7 @@ public class ProductService {
 	
 	@Transactional (propagation = Propagation.SUPPORTS)
 	public void delete (Long id) {
-		if (!productRepository.existsById (id)){
+		if (!productRepository.existsById (id)) {
 			throw new ResourceNotFoundException ("Resource note found");
 		}
 		try {
