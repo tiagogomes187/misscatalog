@@ -4,6 +4,7 @@ import br.dev.tiagogomes.misscatalog.entities.Product;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Size;
 
 import java.time.Instant;
 import java.util.Collections;
@@ -19,6 +20,7 @@ public record ProductDTO(
 		@NotBlank(message = "Campo obrigatório.")
 		String color,
 		@NotBlank(message = "Campo obrigatório.")
+		@Size(min = 5, max = 60, message = "O nome do produto deve ter no mínimo 5 caracteres e máximo 60.")
 		String name,
 		@NotBlank(message = "Campo obrigatório.")
 		String additionalCodes,
