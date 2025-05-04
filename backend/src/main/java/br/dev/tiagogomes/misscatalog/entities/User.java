@@ -17,15 +17,10 @@ public class User implements Serializable {
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Long id;
-	@NotBlank
 	private String firstName;
-	@NotBlank
 	private String lastName;
 	@Column(unique = true)
-	@NotBlank (message = "O e-mail é obrigatório!")
-	@Email (message = "Formato de e-mail inválido!")
 	private String email;
-	@NotBlank
 	private String password;
 	
 	@ManyToMany (fetch = FetchType.EAGER)

@@ -1,6 +1,9 @@
 package br.dev.tiagogomes.misscatalog.dto;
 
 import br.dev.tiagogomes.misscatalog.entities.Product;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 
 import java.time.Instant;
 import java.util.Collections;
@@ -9,24 +12,44 @@ import java.util.stream.Collectors;
 
 public record ProductDTO(
 		Long id,
+		@NotNull(message = "Campo obrigatório.")
 		Long gtinCode,
+		@NotBlank(message = "Campo obrigatório.")
 		String reference,
+		@NotBlank(message = "Campo obrigatório.")
 		String color,
+		@NotBlank(message = "Campo obrigatório.")
 		String name,
+		@NotBlank(message = "Campo obrigatório.")
 		String additionalCodes,
+		@NotNull(message = "Campo obrigatório.")
 		Long itemsIncluded,
+		@NotBlank(message = "Campo obrigatório.")
 		String images,
+		@NotBlank(message = "Campo obrigatório.")
 		String brand,
+		@NotNull(message = "Campo obrigatório.")
 		Double grossWeight,
+		@NotNull(message = "Campo obrigatório.")
 		Double netWeight,
+		@NotNull(message = "Campo obrigatório.")
 		Integer netContent,
+		@NotNull(message = "Campo obrigatório.")
 		Double height,
+		@NotNull(message = "Campo obrigatório.")
 		Double width,
+		@NotNull(message = "Campo obrigatório.")
 		Double depth,
+		@NotBlank(message = "Campo obrigatório.")
 		String ncm,
+		@NotBlank(message = "Campo obrigatório.")
 		String cest,
+		@NotBlank(message = "Campo obrigatório.")
 		String gpc,
+		@NotNull(message = "Campo obrigatório.")
+		@PastOrPresent(message = "A data não pode ser futura")
 		Instant releaseDate,
+		@NotBlank(message = "Campo obrigatório.")
 		String type,
 		Set<CategoryDTO> categories
 ) {

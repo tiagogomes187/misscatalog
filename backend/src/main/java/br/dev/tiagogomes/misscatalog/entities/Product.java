@@ -19,10 +19,8 @@ public class Product implements Serializable {
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Column (name = "gtin", unique = true)
-	@NotNull
 	private Long gtinCode;
 	@Column (name = "referencia")
-	@NotBlank
 	private String reference;
 	@Column (name = "cor")
 	private String color;

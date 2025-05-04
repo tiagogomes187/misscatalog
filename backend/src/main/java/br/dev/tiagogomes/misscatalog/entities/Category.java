@@ -18,7 +18,7 @@ public class Category implements Serializable {
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotBlank
+	@Column(unique = true)
 	private String name;
 	
 	@Column (columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")

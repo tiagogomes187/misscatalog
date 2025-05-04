@@ -2,6 +2,7 @@ package br.dev.tiagogomes.misscatalog.resources;
 
 import br.dev.tiagogomes.misscatalog.dto.ProductDTO;
 import br.dev.tiagogomes.misscatalog.services.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public class ProductResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<ProductDTO> insert (@RequestBody ProductDTO dto) {
+	public ResponseEntity<ProductDTO> insert (@Valid @RequestBody ProductDTO dto) {
 		dto = productService.insert (dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri ().path ("/{id}")
 				.buildAndExpand (dto.id ()).toUri ();
@@ -41,7 +42,7 @@ public class ProductResource {
 	}
 	
 	@PutMapping (value = "/{id}")
-	public ResponseEntity<ProductDTO> update (@PathVariable Long id, @RequestBody ProductDTO dto) {
+	public ResponseEntity<ProductDTO> update (@Valid @PathVariable Long id, @RequestBody ProductDTO dto) {
 		dto = productService.update (id, dto);
 		return ResponseEntity.ok ().body (dto);
 	}

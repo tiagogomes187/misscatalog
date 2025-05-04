@@ -2,6 +2,7 @@ package br.dev.tiagogomes.misscatalog.resources;
 
 import br.dev.tiagogomes.misscatalog.dto.CategoryDTO;
 import br.dev.tiagogomes.misscatalog.services.CategoryService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public class CategoryResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<CategoryDTO> insert (@RequestBody CategoryDTO dto) {
+	public ResponseEntity<CategoryDTO> insert (@Valid @RequestBody CategoryDTO dto) {
 		dto = categoryService.insert (dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri ().path ("/{id}")
 				.buildAndExpand (dto.id ()).toUri ();
@@ -41,7 +42,7 @@ public class CategoryResource {
 	}
 	
 	@PutMapping (value = "/{id}")
-	public ResponseEntity<CategoryDTO> update (@PathVariable Long id, @RequestBody CategoryDTO dto) {
+	public ResponseEntity<CategoryDTO> update (@Valid @PathVariable Long id, @RequestBody CategoryDTO dto) {
 		dto = categoryService.update (id, dto);
 		return ResponseEntity.ok ().body (dto);
 	}
