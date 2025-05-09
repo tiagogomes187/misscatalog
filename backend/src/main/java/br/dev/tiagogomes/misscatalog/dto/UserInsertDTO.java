@@ -1,6 +1,7 @@
 package br.dev.tiagogomes.misscatalog.dto;
 
 import br.dev.tiagogomes.misscatalog.entities.User;
+import br.dev.tiagogomes.misscatalog.services.validation.UserInsertValid;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -14,24 +15,25 @@ import java.util.stream.Collectors;
  * Record que representa um DTO para inserção de novos usuários.
  * Inclui todos os campos de UserDTO mais um campo de senha.
  */
+@UserInsertValid
 public record UserInsertDTO(
-		@Schema(description = "ID único do usuário (pode ser null)", example = "null")
+		@Schema (description = "ID único do usuário (pode ser null)", example = "null")
 		Long id,
 		@Schema (description = "Primeiro nome do usuário", example = "João")
 		@NotBlank (message = "Primeiro nome não pode estar em branco")
 		@Size (min = 2, max = 50, message = "Primeiro nome deve ter entre 2 e 50 caracteres")
 		String firstName,
-		@Schema(description = "Sobrenome do usuário", example = "Silva")
-		@NotBlank(message = "Sobrenome não pode estar em branco")
-		@Size(min = 2, max = 50, message = "Sobrenome deve ter entre 2 e 50 caracteres")
+		@Schema (description = "Sobrenome do usuário", example = "Silva")
+		@NotBlank (message = "Sobrenome não pode estar em branco")
+		@Size (min = 2, max = 50, message = "Sobrenome deve ter entre 2 e 50 caracteres")
 		String lastName,
 		@NotBlank (message = "O e-mail é obrigatório!")
 		@Email (message = "Formato de e-mail inválido!")
 		String email,
-		@NotBlank(message = "Senha não pode estar em branco")
-		@Size(min = 6, message = "Senha deve ter pelo menos 6 caracteres")
+		@NotBlank (message = "Senha não pode estar em branco")
+		@Size (min = 6, message = "Senha deve ter pelo menos 6 caracteres")
 		String password,
-  
+		
 		Set<RoleDTO> roles) {
 	
 	/**
